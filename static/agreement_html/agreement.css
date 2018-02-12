@@ -1,0 +1,32 @@
+@font-face {
+    font-family: "Times New Roman";
+}
+
+@font-face {
+    font-family: "宋体";
+}
+body {
+    margin: 0;
+}
+
+.agreement-body {
+    padding: 0 1.2rem;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.agreement-body *,
+table {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100%;
+    font-size: 1.2rem !important;
+}
+.agreement-body table tr td:first-child {
+    width: 30% !important;
+}
+.agreement-body table tr td:last-child {
+    width: 70% !important;
+}
