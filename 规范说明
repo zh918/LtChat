@@ -1,3 +1,7 @@
+路由：http://localhost:9008/client.html#/chat
+		 http://localhost:9008/admin.html#/admin/chat
+
+
 移动解决方案结构与规范说明
 
 一、目录结构说明
@@ -26,10 +30,10 @@ src
 		plugins		针对vuex相关的插件
 	style			全局样式、less变量等
 		mixins		所有全局less样式mixin定义 按单文件划分
-test 				jasmine测试用例目录	
+test 				jasmine测试用例目录
 	unit			单元测试
 		spec		测试用例文件夹
- 
+
 三、js规范
 变量
 1.当前作用域顶端定义
@@ -67,7 +71,7 @@ classname:命名规则 小写；多个单词-（中划线）分格
 层级定义样式规则：
 .父级
 	.父级-子级
-		.父级-子级-子级		
+		.父级-子级-子级
 class相隔必须用-（中划线）
 id相隔必须用_(下划线)
 
@@ -87,7 +91,7 @@ id相隔必须用_(下划线)
 
 	// 嵌套层级
 	.classname {
-		
+
 	}
 
 	.classname {
@@ -108,13 +112,13 @@ id相隔必须用_(下划线)
 	// 对象接口
 	export default {
 		props:{
-			// 父级传入属性 
+			// 父级传入属性
 	  	},
 		data(){
 			return {
 				组件相关初始化数据定义
 			}
-		},	
+		},
 
 		created(){
 			// 异步装载初始化数据
@@ -125,7 +129,7 @@ id相隔必须用_(下划线)
 			// 引用的组件
 
 		},
-		
+
 		methods:{
 			// 一些数据交互的问题
 			methodA() {
@@ -148,7 +152,7 @@ id相隔必须用_(下划线)
 	}
 </script>
 <style lang="less" scoped>
-	
+
 </style>
 
 
@@ -158,9 +162,3 @@ store.commit('increment')
 
 
 $store.commit('');
-
-
-
-
-
-
