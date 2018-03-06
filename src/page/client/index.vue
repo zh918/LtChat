@@ -7,7 +7,7 @@
     </div>
     <div class="operate">
       <div class="left">
-        <input type="text" />
+        <input type="text" v-model="message"/>
       </div>
       <div class="right">
         <div class="btn_Send" @click="handleSendMsg">发送</div>
@@ -22,7 +22,8 @@
     data() {
       return {
         socket:null,
-        title:'hello'
+        title:'hello',
+        message:null
       }
     },
     beforeCreate() {
@@ -30,12 +31,26 @@
     },
     created() {
       console.log('create client index.vue')
-      this.socket = io('http://localhost:3008', { forceNew: true });
+      this.socket = io('http://localhost:3008',
+          {
+            forceNew: true,
+            query:{
+              tokens:'client'
+            }
+          }
+      );
+      this._initMessageEvent();
     },
     methods: {
+      _initMessageEvent() {
+        console.log('_initMessageEvent');
+        this.socket.on('receive_msg',(data)=>{
+          console.log('服务端给你回消息了。', data);
+        });
+      },
       handleSendMsg() {
-        console.log('发送消息');
-        this.socket.emit('new_msg', '这是stephen 在客户端发送的一条消息，请注意查收！');
+        this.socket.emit('new_msg', this.message);
+        this.message = null;
       }
     }
   }

@@ -1,12 +1,12 @@
-// 管理
+// 管理端-客服人员
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import test from './map/test'
+import admin from './map/admin'
 
 export default new Router({
 	mode:'hash',
 	routes:[
-		test
+		admin
 	]
 })

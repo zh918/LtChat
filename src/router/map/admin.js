@@ -1,5 +1,5 @@
 import layout from '../../components/common/layout/layout'
-const admin = r => require.ensure([], () => r(require('../../page/admin/test.vue')), 'admin')
+const admin = r => require.ensure([], () => r(require('../../page/admin/index.vue')), 'admin')
 
 export default {
 	name:'客服管理',
