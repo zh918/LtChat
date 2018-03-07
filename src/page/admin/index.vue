@@ -10,7 +10,9 @@
       </div>
       <div class="right">
         <div class="display_message">
-
+          <div class="message" :key="index" v-for="(msg, index) in data.msg">
+            {{msg.name}}:{{msg.message}} [{{msg.time}}]
+          </div>
         </div>
         <div class="send_message">
           <input type="text" v-model="message">
@@ -22,13 +24,17 @@
 </template>
 <script>
   import io from 'socket.io-client';
+  import * as moment from 'moment'
 
   export default {
     data() {
       return {
         socket:null,
         title:'hello',
-        message:null
+        message:null,
+        data:{
+          msg:[]
+        }
       }
     },
     beforeCreate() {
@@ -49,11 +55,23 @@
       _initMessageEvent() {
         console.log('_initMessageEvent');
         this.socket.on('receive_msg',(data)=>{
-          console.log('客户端给你回消息了。', data);
+          this.data.msg.push(data);
         });
       },
       handleSendMessage() {
-        this.socket.emit('new_msg', this.message);
+        let name = $ParmsHelper.loadPageParms('name');
+
+        let msg = {
+            name:name,
+            message:this.message,
+            time:moment().format('YYYY年MM月dd日 HH:mm:ss')
+        };
+
+        if (!name) { alert('录入个name参数测试'); return; }
+
+        this.data.msg.push(msg);
+
+        this.socket.emit('new_msg', msg);
         this.message = null;
       }
     }
@@ -96,6 +114,19 @@
         width: 78%;
         height: 100%;
         border: 1px solid yellow;
+
+        .display_message {
+          position: absolute;
+          top: 0;
+        }
+
+        .send_message {
+          position: fixed;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          text-align: right;
+        }
       }
     }
   }

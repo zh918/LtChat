@@ -2,8 +2,9 @@
   <div class="container">
     <div class="title">标题栏目</div>
     <div class="content">
-        <div class="left_msg">左侧消息</div>
-        <div class="right_msg">右侧消息</div>
+        <div class="message" :key="index" v-for="(msg, index) in data.msg">
+          {{msg.name}}:{{msg.message}} [{{msg.time}}]
+        </div>
     </div>
     <div class="operate">
       <div class="left">
@@ -17,13 +18,17 @@
 </template>
 <script>
   import io from 'socket.io-client';
+  import * as moment from 'moment'
 
   export default {
     data() {
       return {
         socket:null,
         title:'hello',
-        message:null
+        message:null,
+        data:{
+          msg:[]
+        }
       }
     },
     beforeCreate() {
@@ -45,11 +50,23 @@
       _initMessageEvent() {
         console.log('_initMessageEvent');
         this.socket.on('receive_msg',(data)=>{
-          console.log('服务端给你回消息了。', data);
+          this.data.msg.push(data);
         });
       },
       handleSendMsg() {
-        this.socket.emit('new_msg', this.message);
+        let name = $ParmsHelper.loadPageParms('name');
+
+        let msg = {
+            name:name,
+            message:this.message,
+            time:moment().format('YYYY年MM月dd日 HH:mm:ss')
+        };
+
+        if (!name) { alert('录入个name参数测试'); return; }
+
+        this.data.msg.push(msg);
+
+        this.socket.emit('new_msg', msg);
         this.message = null;
       }
     }

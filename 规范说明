@@ -1,5 +1,5 @@
-路由：http://localhost:9008/client.html#/chat
-		 http://localhost:9008/admin.html#/admin/chat
+路由：http://localhost:9008/client.html#/chat?name=stephen
+		 http://localhost:9008/admin.html#/admin/chat?name=admin
 
 
 移动解决方案结构与规范说明
