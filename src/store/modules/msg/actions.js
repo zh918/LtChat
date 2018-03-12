@@ -1,5 +1,5 @@
 // actions
-import types from './mutationTypes'
+import * as types from './mutationTypes'
 
 
 export default {
