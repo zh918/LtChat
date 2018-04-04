@@ -1,9 +1,9 @@
-class AppConfig { 
+class AppConfig {
 
 	static setApiUrl() {
 		if (process.env.NODE_ENV == 'dev') {
 			// 本地
-			return 'http://192.168.1.25:30006/external';
+			return 'http://localhost:3008';
 		}
 		else if (process.env.NODE_ENV == 'development') {
 			// 开发

@@ -3,11 +3,18 @@ import initData from './initData'
 import actions from './actions'
 
 const mutations = {
+  /**
+   * 客服启动加载初始数据
+   */
   [types.SERVER_MSG_LOAD](state, data) {
 
   },
+
+  /**
+   * 客服接收到用户消息
+   */
   [types.SERVER_MSG_RECEIVE](state, data) {
-    let msg = state.server.msg.find(m=>m.name == data.name);
+    let msg = state.server.msg.find(m=>m.sessionId == data.name);
     if (msg) {
       msg.data.push({msg:data.msg, datetime:data.datetime, isAdmin:false, isRead:false});
       msg.lastTime = '2018-03-01 17:15:18';
@@ -26,11 +33,15 @@ const mutations = {
     }
 
   },
+
+  /**
+   * 客服发送消息到用户
+   */
   [types.SERVER_MSG_SEND](state, data) {
     let msg = state.server.msg.find(m=>m.name == data.name);
     if (msg) {
       msg.data.push({msg:data.msg, datetime:data.datetime, isAdmin:true, isRead:false, admin:'测试管理员'});
-      msg.lastTime = '2018-03-01 17:15:18'; 
+      msg.lastTime = '2018-03-01 17:15:18';
     }
   }
 }

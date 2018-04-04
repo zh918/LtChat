@@ -1,17 +1,14 @@
 // actions
 import * as types from './mutationTypes'
+import adminApi from '@/server/adminLogic'
+
 
 
 export default {
-  /**
-   * 加载消息
-   */
-  loadMsgForServer(context, data) {
-
-  },
 
   /**
-   * 管理员发送消息给客户
+   * 客服->用户
+   * data:{ name: 'admin', message: 'sdf', time: '2018年03月Th日 10:12:19', isAdmin:true, isRead:true }
    */
   sendMsgForServer(context, data) {
     // todo 插入消息到redis中
@@ -19,9 +16,22 @@ export default {
   },
 
   /**
-   * 管理员接收到客户发送消息
+   * 用户->客服
+   * data:{ socketId: name: 'admin', message: 'sdf', time: '2018年03月Th日 10:12:19', isAdmin:false, isRead:false }
    */
-  receiveForServer(context, data) {
+  receiveMsgForServer(context, data) {
+    context.commit({type:types.SERVER_MSG_RECEIVE, data:data});
+  },
 
-  }
+  /**
+   * 客服 读取用户消息
+   * data:{ name: 'admin', message: 'sdf', time: '2018年03月Th日 10:12:19', isAdmin:false, isRead:true }
+   */
+  readMsgForServer(context, data) {
+    context.commit({type:types.SERVER_MSG_READ, data:data});
+  },
+
+
+
+
 }

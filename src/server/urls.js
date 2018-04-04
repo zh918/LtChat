@@ -21,21 +21,11 @@ const setEncrypt = (type) => {
 }
 
 export default {
-    // 申请报价
-    applyQuote: {
+    // 管理员登录
+    adminLogin: {
         urlType:urlType.bizProxyUrl,
-        url:'/api/marketchannel/quote/applyQuote', 
+        url:'/api/marketchannel/quote/applyQuote',
     },
 
-    // 获取验证码
-    getValidCode: {
-        urlType:urlType.bizProxyUrl,
-        url:'/api/marketchannel/sms/getValiCode', 
-    }, 
 
-    // 上传行驶证图片接口
-    uploadPic: {
-        urlType:urlType.bizProxyUrl,
-        url:'/api/marketchannel/userinfo/travelInfoUpload', 
-    }, 
 }

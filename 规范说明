@@ -1,3 +1,7 @@
+客户端启动:npm run dev
+服务端启动:cd server
+				 node index.js
+
 路由：http://localhost:9008/client.html#/chat?name=stephen
 		 http://localhost:9008/admin.html#/admin/chat?name=admin
 

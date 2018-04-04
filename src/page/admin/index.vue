@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="send_message">
-          <input type="text" v-model="message">
+          <textarea rows="3" cols="20" v-model="message" @keypress="handleKeypress"></textarea>
           <button type="button" name="button" @click="handleSendMessage">回复消息</button>
         </div>
       </div>
@@ -45,7 +45,10 @@
           {
             forceNew: true,
             query:{
-              tokens:'server'
+              tokens:'server',
+              member:{
+                alias:'张三丰'
+              }
             }
           }
       );
@@ -55,6 +58,8 @@
       _initMessageEvent() {
         console.log('_initMessageEvent');
         this.socket.on('receive_msg',(data)=>{
+          console.log(data);
+          // todo 写入store 进行分类处理
           this.data.msg.push(data);
         });
       },
@@ -73,7 +78,15 @@
 
         this.socket.emit('new_msg', msg);
         this.message = null;
-      }
+      },
+      handleKeypress() {
+        // let target = event.target || event.srcElement;
+        //
+        // if (event.keyCode == 13) {
+        //   let button = document.getElementsByTagName('button');
+        //   button.handleSendMessage();
+        // }
+      },
     }
   }
 </script>
@@ -123,9 +136,24 @@
         .send_message {
           position: fixed;
           right: 0;
-          bottom: 0;
+          left: 0;
+          bottom: 20/20rem;
+          margin: auto;
           width: 100%;
+          height: 60/20rem;
+          line-height: 60/20rem;
           text-align: right;
+          opacity: 0.7;
+
+          textarea {
+            width: 500/20rem;
+            height: 60/20rem;
+            font-size: 14/20rem;
+          }
+          button {
+            height: 60/20rem;
+            vertical-align: top;
+          }
         }
       }
     }

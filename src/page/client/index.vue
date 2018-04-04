@@ -40,7 +40,10 @@
           {
             forceNew: true,
             query:{
-              tokens:'client'
+              tokens:'client',
+              member:{
+                alias:'小明'
+              }
             }
           }
       );
@@ -50,6 +53,7 @@
       _initMessageEvent() {
         console.log('_initMessageEvent');
         this.socket.on('receive_msg',(data)=>{
+          console.log(data);
           this.data.msg.push(data);
         });
       },
