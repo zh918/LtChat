@@ -3,7 +3,7 @@
     <div class="title">标题栏目</div>
     <div class="content">
         <div class="message" :key="index" v-for="(msg, index) in data.msg">
-          {{msg.name}}:{{msg.message}} [{{msg.time}}]
+          {{msg.name}}:{{msg.content}} [{{msg.time}}]
         </div>
     </div>
     <div class="operate">
@@ -36,14 +36,16 @@
     },
     created() {
       console.log('create client index.vue')
+      let token = $ParmsHelper.loadPageParms('token');
+      let name = $ParmsHelper.loadPageParms('name');
+       
       this.socket = io('http://localhost:3008',
           {
             forceNew: true,
             query:{
-              tokens:'client',
-              member:{
-                alias:'小明'
-              }
+              platform:'client', 
+              token:token,
+              name:name
             }
           }
       );
@@ -62,7 +64,7 @@
 
         let msg = {
             name:name,
-            message:this.message,
+            content:this.message,
             time:moment().format('YYYY年MM月dd日 HH:mm:ss')
         };
 

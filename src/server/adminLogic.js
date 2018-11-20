@@ -1,7 +1,7 @@
 
 import urls from './urls'
 
-export default AdminLogic {
+export default class AdminLogic {
 
   /**
    * 管理员登录
