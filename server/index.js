@@ -41,8 +41,9 @@ io.use((socket, next) => {
   if (platform == 'client' && !!id) {  
     // 客户端访问
     let name = socket.handshake.query.name;
-    debugger
+     
     let serverInfo = _dispatchServer({socketId:id,token:token,name:name});
+    
 
     var clientInfo = clients.find(c=>c.token == token);
     if (!!clientInfo) {
@@ -52,7 +53,7 @@ io.use((socket, next) => {
       clients.push({
         token:token,
         socketId:id,
-        to:serverInfo.socketId
+        to:!serverInfo ? null : serverInfo.socketId
       });
     }
     
@@ -86,7 +87,7 @@ io.use((socket, next) => {
 });
 
 io.on('connection', function (socket) {
-
+  console.log('hahah,connection')
 
   socket.on('new_msg', function (data) {
     let platform = socket.handshake.query.platform;
@@ -95,8 +96,18 @@ io.on('connection', function (socket) {
     if (platform == 'client') {
         data.socketId = socket.id;
         let temp = clients.find(c=>c.socketId == socket.id);
-        if (temp) toId = temp.to;
-        // data.socketId = socket.id;
+        if (temp) toId = temp.to; 
+
+        if (!toId) {
+          // todo 这里还需要去查询一下是否已有客服上线，如果上线，则立即为客户安排客服人员
+          // 返回消息给发送者，告知当前不存在客服
+          let msg = {
+              name:'系统消息',
+              content:'不好意思，客服还没起床上班了。晚点再来吧！', 
+          };
+          io.to(socket.id).emit('receive_msg', msg);
+          return;
+        }
     }
     else if (platform == 'server') { 
       // let temp = clients.find(c=>c.to == data.socketId);
@@ -115,10 +126,11 @@ io.on('connection', function (socket) {
 // 分配管理员（给客服安排会员）
 function _dispatchServer(client) {
   let serverModel = null;
-
+   
   // 1.判断是否已经存在服务
   serverModel = servers.find(s=>s.clients.some(c=>c.token == client.token));
-  if (serverModel == null) {
+   
+  if (serverModel == null && servers.length != 0) {
     // 2.不存在服务则直接分配服务
     serverModel = servers.sort((a,b)=>a.clientCount < b.clientCount)[0]; // 取客户端数量最少客服
     serverModel.clientCount += 1;

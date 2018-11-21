@@ -3,7 +3,7 @@
     <div class="title">标题栏目</div>
     <div class="content">
         <div class="message" :key="index" v-for="(msg, index) in data.msg">
-          {{msg.name}}:{{msg.content}} [{{msg.time}}]
+          {{msg.name}}:{{msg.content}} <span v-if="msg.time">[{{msg.time}}]</span>
         </div>
     </div>
     <div class="operate">
@@ -14,6 +14,11 @@
         <div class="btn_Send" @click="handleSendMsg">发送</div>
       </div>
     </div>
+
+    <!-- 声音 -->
+    <video ref="btn_video" controls="" name="media" v-show="false"> 
+        <source type="audio/mp3" src="../../../static/video/qq_notice.mp3">
+    </video>
   </div>
 </template>
 <script>
@@ -52,11 +57,11 @@
       this._initMessageEvent();
     },
     methods: {
-      _initMessageEvent() {
-        console.log('_initMessageEvent');
-        this.socket.on('receive_msg',(data)=>{
-          console.log(data);
+      _initMessageEvent() { 
+        this.socket.on('receive_msg',(data)=>{ 
           this.data.msg.push(data);
+          this.$refs.btn_video.play();
+
         });
       },
       handleSendMsg() {

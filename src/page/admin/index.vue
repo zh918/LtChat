@@ -6,7 +6,7 @@
     <div class="main">
       <div class="left">
         <div class="item_client" :class="{active:msg.isDisplay==true}" :key="index" v-for="(msg, index) in receiveData" @click="handleChangeUserMsg(msg.socketId)">
-          {{msg.name}}
+          {{msg.name}}{{msg.isReceiveMsg ? '有新消息' : ''}}
         </div> 
 
       </div>
@@ -24,6 +24,13 @@
         </div>
       </div>
     </div>
+
+
+    <!-- 声音 -->
+    <video ref="btn_video" controls="" name="media" v-show="false"> 
+        <source type="audio/mp3" src="../../../static/video/qq_notice.mp3">
+    </video>
+
   </div>  
 </template>
 <script>
@@ -78,9 +85,9 @@
     },
     methods: {
       _initMessageEvent() {
-        console.log('_initMessageEvent');
+
         this.socket.on('receive_msg',(data)=>{
-          console.log('收到消息', data);
+          this.$refs.btn_video.play();
           var rData = this.receiveData.find(r=>r.socketId == data.socketId);
 
           if (rData) {
@@ -148,6 +155,7 @@
 
         var rData = this.receiveData.find(r=>r.socketId == socketId);
         rData.isDisplay = true;
+        rData.isReceiveMsg = false;
 
         this.sendData.socketId = socketId;
 
