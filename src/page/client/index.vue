@@ -27,9 +27,7 @@
 
   export default {
     data() {
-      return {
-        socket:null,
-        title:'hello',
+      return { 
         message:null,
         data:{
           msg:[]
@@ -66,8 +64,10 @@
       },
       handleSendMsg() {
         let name = $ParmsHelper.loadPageParms('name');
+        let token = $ParmsHelper.loadPageParms('token');
 
         let msg = {
+            token:token,
             name:name,
             content:this.message,
             time:moment().format('YYYY年MM月dd日 HH:mm:ss')

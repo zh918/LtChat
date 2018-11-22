@@ -38,6 +38,8 @@ io.use((socket, next) => {
   let token = socket.handshake.query.token; // 用户身份凭证
    
   console.log('现在开始连接',platform,id,token);
+  // todo 这里如果token重复出现，则
+
   if (platform == 'client' && !!id) {  
     // 客户端访问
     let name = socket.handshake.query.name;
@@ -86,8 +88,7 @@ io.use((socket, next) => {
   return next(new Error('authentication error'));
 });
 
-io.on('connection', function (socket) {
-  console.log('hahah,connection')
+io.on('connection', function (socket) { 
 
   socket.on('new_msg', function (data) {
     let platform = socket.handshake.query.platform;
@@ -114,7 +115,7 @@ io.on('connection', function (socket) {
       // if (temp) toId = temp.socketId;
       toId = data.socketId;
     }
-
+    console.log('消息传输',data);
     io.to(toId).emit('receive_msg', data);
 
 
@@ -131,8 +132,8 @@ function _dispatchServer(client) {
   serverModel = servers.find(s=>s.clients.some(c=>c.token == client.token));
    
   if (serverModel == null && servers.length != 0) {
-    // 2.不存在服务则直接分配服务
-    serverModel = servers.sort((a,b)=>a.clientCount < b.clientCount)[0]; // 取客户端数量最少客服
+    // 2.不存在服务则直接分配服务 
+    serverModel = servers.sort((a,b)=>a.clientCount > b.clientCount)[0]; // 取客户端数量最少客服
     serverModel.clientCount += 1;
     serverModel.clients.push({socketId:client.socketId,name:client.name,token:client.token});
   }

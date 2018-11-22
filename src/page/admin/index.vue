@@ -42,7 +42,8 @@
       return {
         receiveData:[
           // {
-          //   socketId:null,
+          //   token:null,    // 代表客户的唯一性
+          //   socketId:null, // 确保每次回话的最新编号，不能代表客户的唯一性
           //   name:null,
           //   list:[
           //     {
@@ -88,8 +89,8 @@
 
         this.socket.on('receive_msg',(data)=>{
           this.$refs.btn_video.play();
-          var rData = this.receiveData.find(r=>r.socketId == data.socketId);
-
+          var rData = this.receiveData.find(r=>r.token == data.token);
+          console.log(data,rData,this.receiveData);
           if (rData) {
             rData.list.push({
               type:1,
@@ -101,6 +102,7 @@
           }
           else {
             var temp = {
+              token:data.token,
               socketId:data.socketId,
               name:data.name,
               list:[
