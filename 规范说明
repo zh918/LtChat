@@ -5,6 +5,9 @@
 路由：
 http://localhost:9008/admin.html#/admin/chat?name=admin&token=admin
 http://localhost:9008/client.html#/chat?name=stephen&token=stephen
+
+http://localhost:9008/admin.html#/admin/chat?name=admin&token=admin
+http://localhost:9008/client.html#/chat?name=tom&token=tom
 		 
 
 

@@ -5,31 +5,13 @@ const path = require('path');
 const port = process.env.PORT || 3008;
 const io = require('socket.io')(server,{origins:'http://localhost:*'});
 
+const clients = require('./models/clients');
+const servers = require('./models/servers');
+
 app.use(express.static(path.join(__dirname, '../public')));
 
 server.listen(port, () => console.log('>>> http://localhost:' + port));
 
-// 内存结构
-const clients = [
-  // {
-  //   socketId:null, // 会员sessionid
-  //   to:null, // 客服人员
-  // }
-];
-
-const servers = [
-  // {
-  //   socketId:null, // 客服人员
-  //   member:member,
-  //   clientCount:0,// 客户数量
-  //   clients:[
-  //     {
-  //       name:'stephen1',
-  //       socketId:''
-  //     }
-  //   ]
-  // }
-];
 
 // 校验
 io.use((socket, next) => {
@@ -117,7 +99,7 @@ io.on('connection', function (socket) {
     }
     console.log('消息传输',data);
     io.to(toId).emit('receive_msg', data);
-
+    // todo 这里可以延迟存入数据库
 
   });
 
